@@ -1,8 +1,4 @@
 import React from 'react';
-import logo from '../../public/images/logo.png';
-import img1 from '../../public/images/img1.jpg';
-import img2 from '../../public/images/img2.jpg';
-
 
 const Home = () => {
     return (
@@ -12,7 +8,7 @@ const Home = () => {
                     <div className="col-12 d-flex justify-content-center">
                         <a href="/">
                             <img
-                                src='/images/menu_item_images/placeholder.png'
+                                src="/images/logo.png"
                                 className="img-fluid"
                                 alt="Steaming Bulldog logo"
                             />
@@ -29,7 +25,7 @@ const Home = () => {
 
                         <div className="container mb-3">
                             <img
-                                src={img1}
+                                src='/images/img1.jpg'
                                 className="img-border img-fluid"
                                 alt="KBBQ Dinner"
                                 style={{ maxWidth: '500px' }}
@@ -38,7 +34,7 @@ const Home = () => {
 
                         <div className="container">
                             <img
-                                src={img2}
+                                src='/images/img2.jpg'
                                 className="img-border img-fluid"
                                 alt="KBBQ Dinner 2"
                                 style={{ maxWidth: '500px' }}
