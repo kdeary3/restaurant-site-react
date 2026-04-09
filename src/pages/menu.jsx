@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import MENU_ITEMS from '../data/menudata.jsx';
-import {SpiceLevel, getPriceDisplay} from "../helpers/menu_helpers.jsx";
+import {SpiceLevel, getPriceDisplay} from "../helpers/helpers.jsx";
 
 const Menu = () => {
     const [filter, setFilter] = useState("all");
@@ -9,6 +9,30 @@ const Menu = () => {
         if (filter === "all") return true;
         return item.priceCategory === filter;
     });
+
+    const addToCart = (item, quantity) => {
+        let cart = JSON.parse(localStorage.getItem("userCart")) || [];
+
+        const existingItemIndex = cart.findIndex(cartItem => cartItem.id === item.id);
+        const qty = parseInt(quantity);
+
+        if (existingItemIndex > -1) {
+            cart[existingItemIndex].quantity += qty;
+        } else {
+            cart.push({
+                id: item.id,
+                name: item.name,
+                priceCategory: item.priceCategory,
+                base_price: item.base_price,
+                quantity: qty
+            });
+        }
+
+        localStorage.setItem("userCart", JSON.stringify(cart));
+
+        // Optional: Add a simple toast/alert here like your vanilla showAlert()
+        alert(`${item.name} added to cart!`);
+    };
 
     return (
         <div className="container mt-5">
@@ -49,12 +73,18 @@ const Menu = () => {
 
                                 <div className="input-group my-3">
                                     <span className="input-group-text">Qty</span>
-                                    <select className="form-select">
+                                    <select className="form-select" id={`qty-${item.id}`}>
                                         {[1, 2, 3, 4, 5].map(n => <option key={n} value={n}>{n}</option>)}
                                     </select>
                                 </div>
 
-                                <button className="btn btn-success w-100">
+                                <button
+                                    className="btn btn-success w-100"
+                                    onClick={() => {
+                                        const qty = document.getElementById(`qty-${item.id}`).value;
+                                        addToCart(item, qty);
+                                    }}
+                                >
                                     Add to Cart
                                 </button>
                             </div>
