@@ -30,8 +30,7 @@ const Menu = () => {
 
         localStorage.setItem("userCart", JSON.stringify(cart));
 
-        // Optional: Add a simple toast/alert here like your vanilla showAlert()
-        alert(`${item.name} added to cart!`);
+        // alert(`${item.name} added to cart!`);
     };
 
     return (
