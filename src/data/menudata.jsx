@@ -38,7 +38,7 @@ const MENU_ITEMS = [
     {
         id: 5,
         name: "Boba",
-        description: "Milk Tea, Strawberry Slush, or Jasmine Green Tea",
+        description: "Milk Tea, Strawberry Slush, Thai Tea or Jasmine Green Tea",
         priceCategory: "Not Included",
         base_price: 6.99,
         category: "Drink",
