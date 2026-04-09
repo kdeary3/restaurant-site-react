@@ -16,6 +16,7 @@ const Cart = () => {
     const updateCart = (newCart) => {
         setCart(newCart);
         localStorage.setItem("userCart", JSON.stringify(newCart));
+        localStorage.setItem("userCart", JSON.stringify(newCart));
     };
 
     const removeItem = (index) => {
@@ -27,6 +28,11 @@ const Cart = () => {
     const handleClearCart = () => {
         updateCart([]);
         navigate('/menu');
+    };
+
+    const handleConfirmOrder = () => {
+        updateCart([]);
+        alert(`Your order has been confirmed!`);
     };
 
     const totals = calculateTotals(cart, partySize);
@@ -96,10 +102,10 @@ const Cart = () => {
                             <span>{money.format(totals.grandTotal)}</span>
                         </div>
 
-                        <Button variant="success" className="w-100 mt-3" onClick={() => {/* Checkout Logic */}}>
+                        <Button variant="success" className="w-100 mt-3" onClick={handleConfirmOrder}>
                             Confirm Order
                         </Button>
-                        <Button variant="link" className="text-danger w-100 mt-2" onClick={handleClearCart}>
+                        <Button variant="danger" className="w-100 mt-3" onClick={handleClearCart}>
                             Clear Cart
                         </Button>
                     </Card>
