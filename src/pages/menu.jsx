@@ -3,7 +3,7 @@ import MENU_ITEMS from '../data/menudata.jsx';
 import {SpiceLevel, getPriceDisplay} from "../helpers/helpers.jsx";
 import {Button} from "react-bootstrap";
 import {useNavigate} from 'react-router-dom';
-import AddToCartModal from "../components/modals.jsx";
+import AddToCartAlert from "../components/addtocartalert.jsx";
 
 const Menu = () => {
     const navigate = useNavigate();
@@ -42,17 +42,32 @@ const Menu = () => {
         navigate('/cart')
     }
 
-    const [isModalOpen, setIsModalOpen] = useState(false); // Renamed to avoid conflict
-    const [lastAddedItem, setLastAddedItem] = useState(null);
+    const [notifications, setNotifications] = useState([]);
+
+    const handleAddToCart = (item, qty) => {
+        addToCart(item, qty);
+
+        const newNotification = {
+            id: Math.random(),
+            name: item.name,
+            quantity: qty
+        };
+
+        setNotifications(prev => [...prev, newNotification]);
+    };
+
+    const removeNotification = (id) => {
+        setNotifications(prev => prev.filter(n => n.id !== id));
+    };
 
 
     return (
         <>
-            <AddToCartModal
-                show={isModalOpen}
-                item={lastAddedItem}
-                handleClose={() => setIsModalOpen(false)}
+            <AddToCartAlert
+                notifications={notifications}
+                removeNotification={removeNotification}
             />
+
             <div className="container mt-5">
                 <h1 className="text-center mb-4">Our Menu</h1>
 
@@ -103,9 +118,7 @@ const Menu = () => {
                                         className="btn btn-success w-100"
                                         onClick={() => {
                                             const qty = document.getElementById(`qty-${item.id}`).value;
-                                            addToCart(item, qty);
-                                            setLastAddedItem({...item, quantity: qty});
-                                            setIsModalOpen(true);
+                                            handleAddToCart(item, qty);
                                         }}
                                     >
                                         Add to Cart
