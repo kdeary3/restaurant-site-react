@@ -4,9 +4,10 @@ import { object, string, number, boolean } from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
 
 const Reservations = () => {
-    const userSchema = object({
+
+    const validationSchema = object({
         name: string()
-            .min(5, "Must be at least 5 characters.")
+            .min(1, "Must be at least 1 character.")
             .required("Field is required."),
         email: string()
             .email("Invalid email format")
@@ -29,19 +30,27 @@ const Reservations = () => {
     const {
         register,
         handleSubmit,
+        setValue,
         reset,
         formState: { errors },
     } = useForm({
-        resolver: yupResolver(userSchema),
+        resolver: yupResolver(validationSchema),
         defaultValues: {
             seating_preference: "Dog Kennel",
-            newsletter: false
+            newsletter: false,
+            party_size: 1
         }
     });
 
     const onSubmit = (data) => {
+        console.log("Reservation Submitted:");
         console.log("Form Data:", data);
     };
+
+    const handleChange = (event) => {
+        setValue(event.target.name, event.target.value)
+        console.log("Keyboard press")
+    }
 
     return (
         <div className="container mt-4">
@@ -53,7 +62,8 @@ const Reservations = () => {
                 <div className="mb-3">
                     <label className="form-label">Name:</label>
                     <input type="text" className="form-control" {...register("name")}
-                           placeholder={"John Doe"}/>
+                           placeholder={"John Doe"}
+                           onChange={handleChange}/>
                     {errors.name && <div className="text-danger">{errors.name.message}</div>}
                 </div>
 
@@ -61,15 +71,19 @@ const Reservations = () => {
                 <div className="mb-3">
                     <label className="form-label">Email:</label>
                     <input type="email" className="form-control" {...register("email")}
-                           placeholder={"john.doe@email.com"}/>
+                           placeholder={"john.doe@email.com"}
+                           onChange={handleChange}/>
                     {errors.email && <div className="text-danger">{errors.email.message}</div>}
                 </div>
 
                 {/* Party Size */}
                 <div className="mb-3">
                     <label className="form-label">Party Size:</label>
-                    <input type="number" className="form-control" {...register("party_size")} min={1} max={8}
-                           defaultValue={1}/>
+                    <input type="number" className="form-control" {...register("party_size")}
+                           min={1}
+                           max={8}
+                           onChange={handleChange}
+                    />
                     {errors.party_size && <div className="text-danger">{errors.party_size.message}</div>}
                 </div>
 
@@ -79,12 +93,14 @@ const Reservations = () => {
                         <label className="form-label">Date:</label>
                         <input type="date" className="form-control" {...register("date")}
                                min={new Date().toISOString().split('T')[0]}
-                               placeholder={new Date().toISOString()}/>
+                               placeholder={new Date().toISOString()}
+                               onChange={handleChange}/>
                         {errors.date && <div className="text-danger">{errors.date.message}</div>}
                     </div>
                     <div className="col-md-6 mb-3">
                         <label className="form-label">Time:</label>
-                        <input type="time" className="form-control" {...register("reservation_time")} />
+                        <input type="time" className="form-control" {...register("reservation_time")}
+                               onChange={handleChange}/>
                         {errors.reservation_time && <div className="text-danger">{errors.reservation_time.message}</div>}
                     </div>
                 </div>
@@ -99,6 +115,7 @@ const Reservations = () => {
                                 type="radio"
                                 value={option}
                                 {...register("seating_preference")}
+                                onChange={handleChange}
                             />
                             <label className="form-check-label">{option}</label>
                         </div>
@@ -109,12 +126,14 @@ const Reservations = () => {
                 {/* Dietary Restrictions */}
                 <div className="mb-3">
                     <label className="form-label">Dietary Restrictions:</label>
-                    <input type="text" className="form-control" {...register("dietary_restrictions")} />
+                    <input type="text" className="form-control" {...register("dietary_restrictions")}
+                           onChange={handleChange}/>
                 </div>
 
                 {/* Newsletter Checkbox */}
                 <div className="form-check mb-3">
-                    <input type="checkbox" className="form-check-input" {...register("newsletter")} />
+                    <input type="checkbox" className="form-check-input" {...register("newsletter")}
+                           onChange={handleChange}/>
                     <label className="form-check-label">Sign up for newsletter?</label>
                 </div>
 
