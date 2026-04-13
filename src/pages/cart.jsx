@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Container, ListGroup, Card, Button, Form, Row, Col } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import { money, calculateTotals } from '../helpers/helpers.jsx';
+import React, {useState, useEffect} from 'react';
+import {Container, ListGroup, Card, Button, Form, Row, Col} from 'react-bootstrap';
+import {useNavigate} from 'react-router-dom';
+import {money, calculateTotals} from '../helpers/helpers.jsx';
 
 const Cart = () => {
     const navigate = useNavigate();
@@ -53,17 +53,26 @@ const Cart = () => {
                 <Col lg={8}>
                     <ListGroup variant="flush" className="shadow-sm rounded">
                         {cart.map((item, index) => (
-                            <ListGroup.Item key={`${item.id}-${index}`} className="d-flex justify-content-between align-items-center py-3">
+                            <ListGroup.Item key={`${item.id}-${index}`}
+                                            className="d-flex justify-content-between align-items-center py-3">
                                 <div>
                                     <div className="fw-bold">{item.name}</div>
-                                    <small className="text-muted">(x{item.quantity}) | {item.priceCategory}</small>
+                                    <small className="text-muted">(x{item.quantity}) | {item.priceCategory} Menu Item</small>
                                 </div>
                                 <div className="d-flex align-items-center gap-3">
                                     <div className="fw-bold">
-                                        {item.priceCategory === "Not Included"
-                                            ? money.format(item.base_price * item.quantity)
-                                            : "Included"}
+                                        {item.priceCategory === "Premium" ?
+                                            <span className="badge bg-warning text-dark me-1">Premium</span> :
+                                            ""}
+                                        {item.base_price > 0 ?
+                                            <span className="badge bg-info text-dark ms-2">Not Included</span> :
+                                            ""}
+                                        {item.priceCategory === "Not Included" ?
+                                            money.format(item.base_price * item.quantity) :
+                                            <span className="badge bg-danger text-dark me-2">Included</span>}
+
                                     </div>
+
                                     <Button variant="outline-danger" size="sm" onClick={() => removeItem(index)}>
                                         <i className="fa-solid fa-trash-can"></i>
                                     </Button>
@@ -78,9 +87,9 @@ const Cart = () => {
                         <h6 className="fw-bold mb-3 text-center">Order Summary</h6>
 
                         <Form.Group className="mb-3">
-                            <Form.Label>Party Size</Form.Label>
+                            Party Size
                             <Form.Select value={partySize} onChange={(e) => setPartySize(Number(e.target.value))}>
-                                {[1,2,3,4,5,6,7,8].map(num => <option key={num} value={num}>{num}</option>)}
+                                {[1, 2, 3, 4, 5, 6, 7, 8].map(num => <option key={num} value={num}>{num}</option>)}
                             </Form.Select>
                         </Form.Group>
 
@@ -96,17 +105,17 @@ const Cart = () => {
                             <span>Tax (8.25%):</span>
                             <span>{money.format(totals.taxAmount)}</span>
                         </div>
-                        <hr />
+                        <hr/>
                         <div className="d-flex justify-content-between fw-bold text-success fs-5">
                             <span>Total:</span>
                             <span>{money.format(totals.grandTotal)}</span>
                         </div>
 
                         <Button variant="success" className="w-100 mt-3" onClick={handleConfirmOrder}>
-                            Confirm Order
+                            <i className="fa-solid fa-check me-2"></i>Submit Order
                         </Button>
-                        <Button variant="danger" className="w-100 mt-3" onClick={handleClearCart}>
-                            Clear Cart
+                        <Button variant="danger" className="w-100 mt-1" onClick={handleClearCart}>
+                            <i className="fa-solid fa-trash-can me-2"></i>Clear Cart
                         </Button>
                     </Card>
                 </Col>
