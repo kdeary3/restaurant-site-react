@@ -12,7 +12,6 @@ import Reservations from "./pages/Reservations";
 function App() {
     return (
         <Router>
-            {/* The Navbar stays visible on every page because it's outside <Routes> */}
             <RestaurantNavbar />
 
             <Container fluid className="px-5 mt-4">

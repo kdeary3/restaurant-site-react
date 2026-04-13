@@ -6,7 +6,6 @@ const RestaurantNavbar = () => {
     return (
         <Navbar expand="lg" className="bg-body-tertiary shadow-sm" sticky="top">
             <Container fluid className="px-5">
-                {/* Use the leading slash for absolute paths */}
                 <Navbar.Brand as={Link} to="/">Steaming Bulldog KBBQ</Navbar.Brand>
 
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
