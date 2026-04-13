@@ -13,7 +13,7 @@ export function CancelOrderConfirm({ show, handleClose, onConfirm }) {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
-                    Not Yet.
+                    Not Yet
                 </Button>
                 <Button variant="danger" onClick={onConfirm}>
                     <i className="fa-solid fa-trash-can me-2"/>Yes, Clear Everything

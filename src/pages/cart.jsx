@@ -42,8 +42,7 @@ const Cart = () => {
     const handleConfirmOrder = () => {
         updateCart([]);
         setSubmitOrder(false);
-        alert(`Order confirmed!`);
-        navigate('/');
+        navigate('/menu');
     };
 
     const totals = calculateTotals(cart, partySize);
@@ -135,13 +134,13 @@ const Cart = () => {
                         <CancelOrderConfirm
                             show={clearCart}
                             handleClose={() => setClearCart(false)}
-                            onConfirm={handleConfirmOrder}
+                            onConfirm={handleClearCart}
                         />
 
                         <SubmitOrderConfirm
                             show={submitOrder}
                             handleClose={() => setSubmitOrder(false)}
-                            onConfirm={handleClearCart}
+                            onConfirm={handleConfirmOrder}
                         />
                     </Card>
                 </Col>
