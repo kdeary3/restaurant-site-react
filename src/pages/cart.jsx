@@ -65,11 +65,14 @@ const Cart = () => {
                                             <span className="badge bg-warning text-dark me-1">Premium</span> :
                                             ""}
                                         {item.base_price > 0 ?
-                                            <span className="badge bg-info text-dark ms-2">Not Included</span> :
+                                            <>
+                                                <span className="badge bg-danger text-dark ms-1">Not Included</span>
+                                                <span className="ms-1"></span>${item.base_price}
+                                            </> :
                                             ""}
                                         {item.priceCategory === "Not Included" ?
-                                            money.format(item.base_price * item.quantity) :
-                                            <span className="badge bg-danger text-dark me-2">Included</span>}
+                                            "" :
+                                            <span className="badge bg-info text-dark me-2">Included</span>}
 
                                     </div>
 

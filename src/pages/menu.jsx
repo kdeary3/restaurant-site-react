@@ -120,8 +120,7 @@ const Menu = () => {
                                             const qty = document.getElementById(`qty-${item.id}`).value;
                                             handleAddToCart(item, qty);
                                         }}
-                                    >
-                                        Add to Cart
+                                    ><i className="fa-solid fa-check me-2"/>Add to Cart
                                     </button>
                                 </div>
                             </div>
