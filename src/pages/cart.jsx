@@ -1,12 +1,17 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, use} from 'react';
 import {Container, ListGroup, Card, Button, Form, Row, Col} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
 import {money, calculateTotals} from '../helpers/helpers.jsx';
+import {CancelOrderConfirm, SubmitOrderConfirm} from "../components/cancelflow.jsx"
 
 const Cart = () => {
     const navigate = useNavigate();
     const [cart, setCart] = useState([]);
     const [partySize, setPartySize] = useState(1);
+
+    // clear cart and confirm order modals
+    const [clearCart, setClearCart] = useState(false);
+    const [submitOrder, setSubmitOrder] = useState(false);
 
     useEffect(() => {
         const savedCart = JSON.parse(localStorage.getItem("userCart")) || [];
@@ -25,14 +30,20 @@ const Cart = () => {
         updateCart(newCart);
     };
 
+    const handleClearCartClick = () => setClearCart(true);
+    const handleSubmitOrderClick = () => setSubmitOrder(true);
+
     const handleClearCart = () => {
         updateCart([]);
+        setClearCart(false);
         navigate('/menu');
     };
 
     const handleConfirmOrder = () => {
         updateCart([]);
-        alert(`Your order has been confirmed!`);
+        setSubmitOrder(false);
+        alert(`Order confirmed!`);
+        navigate('/');
     };
 
     const totals = calculateTotals(cart, partySize);
@@ -114,12 +125,24 @@ const Cart = () => {
                             <span>{money.format(totals.grandTotal)}</span>
                         </div>
 
-                        <Button variant="success" className="w-100 mt-3" onClick={handleConfirmOrder}>
+                        <Button variant="success" className="w-100 mt-3" onClick={handleSubmitOrderClick}>
                             <i className="fa-solid fa-check me-2"></i>Submit Order
                         </Button>
-                        <Button variant="danger" className="w-100 mt-1" onClick={handleClearCart}>
+                        <Button variant="danger" className="w-100 mt-1" onClick={handleClearCartClick}>
                             <i className="fa-solid fa-trash-can me-2"></i>Clear Cart
                         </Button>
+
+                        <CancelOrderConfirm
+                            show={clearCart}
+                            handleClose={() => setClearCart(false)}
+                            onConfirm={handleConfirmOrder}
+                        />
+
+                        <SubmitOrderConfirm
+                            show={submitOrder}
+                            handleClose={() => setSubmitOrder(false)}
+                            onConfirm={handleClearCart}
+                        />
                     </Card>
                 </Col>
             </Row>
