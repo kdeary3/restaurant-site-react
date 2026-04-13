@@ -52,21 +52,24 @@ const Reservations = () => {
                 {/* Name Field */}
                 <div className="mb-3">
                     <label className="form-label">Name:</label>
-                    <input type="text" className="form-control" {...register("name")} />
+                    <input type="text" className="form-control" {...register("name")}
+                           placeholder={"John Doe"}/>
                     {errors.name && <div className="text-danger">{errors.name.message}</div>}
                 </div>
 
                 {/* Email Field */}
                 <div className="mb-3">
                     <label className="form-label">Email:</label>
-                    <input type="email" className="form-control" {...register("email")} />
+                    <input type="email" className="form-control" {...register("email")}
+                           placeholder={"john.doe@email.com"}/>
                     {errors.email && <div className="text-danger">{errors.email.message}</div>}
                 </div>
 
                 {/* Party Size */}
                 <div className="mb-3">
                     <label className="form-label">Party Size:</label>
-                    <input type="number" className="form-control" {...register("party_size")} />
+                    <input type="number" className="form-control" {...register("party_size")} min={1} max={8}
+                           defaultValue={1}/>
                     {errors.party_size && <div className="text-danger">{errors.party_size.message}</div>}
                 </div>
 
@@ -74,7 +77,9 @@ const Reservations = () => {
                 <div className="row">
                     <div className="col-md-6 mb-3">
                         <label className="form-label">Date:</label>
-                        <input type="date" className="form-control" {...register("date")} />
+                        <input type="date" className="form-control" {...register("date")}
+                               min={new Date().toISOString().split('T')[0]}
+                               placeholder={new Date().toISOString()}/>
                         {errors.date && <div className="text-danger">{errors.date.message}</div>}
                     </div>
                     <div className="col-md-6 mb-3">
