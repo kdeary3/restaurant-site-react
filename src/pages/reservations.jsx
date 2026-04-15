@@ -33,33 +33,22 @@ const Reservations = () => {
     const {
         register,
         handleSubmit,
-        setValue,
         reset,
-        formState: {errors},
+        formState: { errors },
     } = useForm({
         resolver: yupResolver(validationSchema),
         defaultValues: {
             seating_preference: "Dog Kennel",
             newsletter: false,
-            party_size: 1
+            party_size: 1,
+            date: new Date().toISOString().substring(0, 10),
+            reservation_time: "19:30"
         }
     });
 
     const onSubmit = (data) => {
-        console.log("Reservation Submitted:");
-        console.log("Form Data:", data);
-    };
-
-    const handleChange = (event) => {
-        setValue(event.target.name, event.target.value)
-        console.log("Keyboard press")
-    }
-
-    const handleReservationSubmitClick = () => setReservationConfirmation(true);
-
-    const handleReservationConfirmation = () => {
-        console.log("modal show")
-        setReservationConfirmation(false);
+        console.log("Submission Success:", data);
+        setReservationConfirmation(true);
     };
 
     return (
@@ -73,28 +62,34 @@ const Reservations = () => {
                         {/* Name Field */}
                         <div className="mb-3">
                             <label className="form-label">Name:</label>
-                            <input type="text" className="form-control" {...register("name")}
-                                   placeholder={"John Doe"}
-                                   onChange={handleChange}/>
+                            <input
+                                type="text"
+                                className={`form-control ${errors.name ? 'is-invalid' : ''}`}
+                                {...register("name")}
+                                placeholder="John Doe"
+                            />
                             {errors.name && <div className="text-danger">{errors.name.message}</div>}
                         </div>
 
                         {/* Email Field */}
                         <div className="mb-3">
                             <label className="form-label">Email:</label>
-                            <input type="email" className="form-control" {...register("email")}
-                                   placeholder={"john.doe@email.com"}
-                                   onChange={handleChange}/>
+                            <input
+                                type="email"
+                                className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+                                {...register("email")}
+                                placeholder="john.doe@email.com"
+                            />
                             {errors.email && <div className="text-danger">{errors.email.message}</div>}
                         </div>
 
                         {/* Party Size */}
                         <div className="mb-3">
                             <label className="form-label">Party Size:</label>
-                            <input type="number" className="form-control" {...register("party_size")}
-                                   min={1}
-                                   max={8}
-                                   onChange={handleChange}
+                            <input
+                                type="number"
+                                className={`form-control ${errors.party_size ? 'is-invalid' : ''}`}
+                                {...register("party_size")}
                             />
                             {errors.party_size && <div className="text-danger">{errors.party_size.message}</div>}
                         </div>
@@ -103,16 +98,21 @@ const Reservations = () => {
                         <div className="row">
                             <div className="col-md-6 mb-3">
                                 <label className="form-label">Date:</label>
-                                <input type="date" className="form-control" {...register("date")}
-                                       min={new Date().toISOString().split('T')[0]}
-                                       placeholder={new Date().toISOString()}
-                                       onChange={handleChange}/>
+                                <input
+                                    type="date"
+                                    className={`form-control ${errors.date ? 'is-invalid' : ''}`}
+                                    {...register("date")}
+                                    min={new Date().toISOString().split('T')[0]}
+                                />
                                 {errors.date && <div className="text-danger">{errors.date.message}</div>}
                             </div>
                             <div className="col-md-6 mb-3">
                                 <label className="form-label">Time:</label>
-                                <input type="time" className="form-control" {...register("reservation_time")}
-                                       onChange={handleChange}/>
+                                <input
+                                    type="time"
+                                    className={`form-control ${errors.reservation_time ? 'is-invalid' : ''}`}
+                                    {...register("reservation_time")}
+                                />
                                 {errors.reservation_time &&
                                     <div className="text-danger">{errors.reservation_time.message}</div>}
                             </div>
@@ -128,7 +128,6 @@ const Reservations = () => {
                                         type="radio"
                                         value={option}
                                         {...register("seating_preference")}
-                                        onChange={handleChange}
                                     />
                                     <label className="form-check-label">{option}</label>
                                 </div>
@@ -140,58 +139,40 @@ const Reservations = () => {
                         {/* Dietary Restrictions */}
                         <div className="mb-3">
                             <label className="form-label">Dietary Restrictions:</label>
-                            <input type="text-field" className="form-control" {...register("dietary_restrictions")}
-                                   onChange={handleChange}/>
+                            <input
+                                type="text"
+                                className="form-control"
+                                {...register("dietary_restrictions")}
+                            />
                         </div>
 
                         {/* Newsletter Checkbox */}
                         <div className="form-check mb-3">
-                            <input type="checkbox" className="form-check-input" {...register("newsletter")}
-                                   onChange={handleChange}/>
+                            <input type="checkbox" className="form-check-input" {...register("newsletter")} />
                             <label className="form-check-label">Sign up for newsletter?</label>
                         </div>
-                        <div className="row">
 
-                            <div className="col-md-6 mb-3">
-
-                                <Button type="submit" variant="success" onClick={handleReservationSubmitClick}>
-                                    <i className="fa-solid fa-check me-2"></i> Submit
-                                </Button>
-                                <Button type="reset" variant="danger" onClick={() => reset()}>Reset</Button>
-                            </div>
+                        {/* Buttons */}
+                        <div className="mb-3">
+                            <Button type="submit" variant="success" className="me-2">
+                                <i className="fa-solid fa-check me-2"></i> Submit
+                            </Button>
+                            <Button type="button" variant="danger" onClick={() => reset()}>Reset</Button>
                         </div>
 
                         <ReservationSubmissionConfirmation
                             show={reservationConfirmation}
                             handleClose={() => {
-                                setReservationConfirmation(false)
-                                reset()
+                                setReservationConfirmation(false);
+                                reset();
                             }}
-                            onConfirm={handleReservationConfirmation}/>
+                        />
                     </form>
                 </Col>
-                <Col lg={6}>
-                    <div className="row justify-content-center">
-                        <div className="col-lg-8 col-lg-8 text-center">
-                            <div className="container mb-3">
-                                <img
-                                    src='/images/img1.jpg'
-                                    className="img-border img-fluid"
-                                    alt="KBBQ Dinner"
-                                    style={{maxWidth: '800px'}}
-                                />
-                            </div>
 
-                            <div className="container">
-                                <img
-                                    src='/images/img2.jpg'
-                                    className="img-border img-fluid"
-                                    alt="KBBQ Dinner 2"
-                                    style={{maxWidth: '800px'}}
-                                />
-                            </div>
-                        </div>
-                    </div>
+                <Col lg={5} className="text-center">
+                    <img src='/images/img1.jpg' className="img-fluid mb-3 img-border" alt="KBBQ"/>
+                    <img src='/images/img2.jpg' className="img-fluid img-border" alt="KBBQ 2"/>
                 </Col>
             </Row>
         </div>
