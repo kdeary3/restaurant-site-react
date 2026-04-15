@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {object, string, number, boolean} from 'yup';
 import {yupResolver} from "@hookform/resolvers/yup";
-import {Col, Row} from "react-bootstrap";
+import {Button, Col, Row} from "react-bootstrap";
+import {ReservationSubmissionConfirmation} from "../components/reservationmodal.jsx";
 
 const Reservations = () => {
+    const [reservationConfirmation, setReservationConfirmation] = useState(false);
 
     const validationSchema = object({
         name: string()
@@ -53,10 +55,17 @@ const Reservations = () => {
         console.log("Keyboard press")
     }
 
+    const handleReservationSubmitClick = () => setReservationConfirmation(true);
+
+    const handleReservationConfirmation = () => {
+        console.log("modal show")
+        setReservationConfirmation(false);
+    };
+
     return (
         <div className="container mt-4">
             <Row>
-                <Col lg={4}>
+                <Col lg={6}>
                     <h1>Reservations</h1>
                     <p>Reservations are at request only. Fill out the form below to book a table.</p>
 
@@ -141,22 +150,35 @@ const Reservations = () => {
                                    onChange={handleChange}/>
                             <label className="form-check-label">Sign up for newsletter?</label>
                         </div>
+                        <div className="row">
 
-                        <div className="mt-4">
-                            <button type="submit" className="btn btn-success me-2">Submit</button>
-                            <button type="button" className="btn btn-danger" onClick={() => reset()}>Reset</button>
+                            <div className="col-md-6 mb-3">
+
+                                <Button type="submit" variant="success" onClick={handleReservationSubmitClick}>
+                                    <i className="fa-solid fa-check me-2"></i> Submit
+                                </Button>
+                                <Button type="reset" variant="danger" onClick={() => reset()}>Reset</Button>
+                            </div>
                         </div>
+
+                        <ReservationSubmissionConfirmation
+                            show={reservationConfirmation}
+                            handleClose={() => {
+                                setReservationConfirmation(false)
+                                reset()
+                            }}
+                            onConfirm={handleReservationConfirmation}/>
                     </form>
                 </Col>
-                <Col lg={8}>
+                <Col lg={6}>
                     <div className="row justify-content-center">
-                        <div className="col-lg-8 col-sm-10 text-center">
+                        <div className="col-lg-8 col-lg-8 text-center">
                             <div className="container mb-3">
                                 <img
                                     src='/images/img1.jpg'
                                     className="img-border img-fluid"
                                     alt="KBBQ Dinner"
-                                    style={{maxWidth: '500px'}}
+                                    style={{maxWidth: '800px'}}
                                 />
                             </div>
 
@@ -165,7 +187,7 @@ const Reservations = () => {
                                     src='/images/img2.jpg'
                                     className="img-border img-fluid"
                                     alt="KBBQ Dinner 2"
-                                    style={{maxWidth: '500px'}}
+                                    style={{maxWidth: '800px'}}
                                 />
                             </div>
                         </div>
