@@ -2,7 +2,7 @@ import React, {useState, useEffect, use} from 'react';
 import {Container, ListGroup, Card, Button, Form, Row, Col} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
 import {money, calculateTotals} from '../helpers/helpers.jsx';
-import {CancelOrderConfirm, SubmitOrderConfirm} from "../components/cancelflow.jsx"
+import {CancelOrderConfirm, SubmitOrderConfirm} from "../components/cartmodals.jsx"
 
 const Cart = () => {
     const navigate = useNavigate();
