@@ -9,7 +9,7 @@ const AddToCartAlert = ({ notifications, removeNotification }) => {
         >
             {notifications.map((note) => (
                 <NotificationItem
-                    key={note.id} // React uses this to keep track of which is which
+                    key={note.id}
                     note={note}
                     removeNotification={removeNotification}
                 />

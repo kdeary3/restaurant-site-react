@@ -34,8 +34,6 @@ const Menu = () => {
         }
 
         localStorage.setItem("userCart", JSON.stringify(cart));
-
-        // alert(`${item.name} added to cart!`);
     };
 
     const viewCart = () => {

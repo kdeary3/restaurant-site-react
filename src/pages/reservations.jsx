@@ -8,9 +8,9 @@ import {ReservationSubmissionConfirmation} from "../components/reservationmodal.
 const Reservations = () => {
     const [reservationConfirmation, setReservationConfirmation] = useState(false);
 
-    const validationSchema = object({
+    const validation = object({
         name: string()
-            .min(1, "Must be at least 1 character.")
+            .min(20, "20 characters or less.")
             .required("Field is required."),
         email: string()
             .email("Invalid email format")
@@ -26,7 +26,8 @@ const Reservations = () => {
             .required("Time is required."),
         seating_preference: string()
             .required("Please select a preference."),
-        dietary_restrictions: string(),
+        dietary_restrictions: string()
+            .max(30, "30 characters or less."),
         newsletter: boolean(),
     });
 
@@ -36,7 +37,7 @@ const Reservations = () => {
         reset,
         formState: { errors },
     } = useForm({
-        resolver: yupResolver(validationSchema),
+        resolver: yupResolver(validation),
         defaultValues: {
             seating_preference: "Dog Kennel",
             newsletter: false,
